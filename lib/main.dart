@@ -33,6 +33,17 @@ class MyAppState extends ChangeNotifier { //este widget es el que se encarga de 
     current = WordPair.random(); // reasigna el valor de current a una nueva palabra
     notifyListeners();
   }
+
+  var favorites = <WordPair>[]; // una lista vacia, wordpair es una clase que se encarga de manejar pares de palabras
+
+  void toggleFavorite(){ // metodo que se encarga de agregar o quitar un elemento de la lista de favoritos
+    if (favorites.contains(current)){
+      favorites.remove(current);
+    }else {
+      favorites.add(current);
+    }
+    notifyListeners();
+  }
 }
 
 class MyHomePage extends StatelessWidget {
@@ -41,6 +52,15 @@ class MyHomePage extends StatelessWidget {
     var appState = context.watch<MyAppState>(); // realiza el seguimiento del estado de la app
     var pair = appState.current;
 
+    IconData icon; // es el icono que se va a mostrar en el boton de favoritos
+    if (appState.favorites.contains(pair)){ // si la lista de favoritos contiene el par de palabras entonces el icono es un corazon lleno
+      icon = Icons.favorite;
+    } else {
+      icon= Icons.favorite_border;
+    }
+
+
+
     return Scaffold ( // es widget de nivel superior que implementa el diseño visual de la app
       body: Center(
         child: Column( // toma un solo hijo y lo coloca en una columna es una forma de organizacion
@@ -48,12 +68,25 @@ class MyHomePage extends StatelessWidget {
           children: [
             Text('Hola mundo:'), //texto
             BigCard(pair: pair), //texto en minusculas
-        
-            ElevatedButton( //boton
-              onPressed: () {
-                appState.getNext(); // ejecuta la funcion getNext del widget MyAppState
-              },
-              child: Text('Next'), //texto del boton
+            SizedBox(height: 10), // es un espacio en blanco
+            Row( // es un widget que coloca a sus hijos en una fila
+              mainAxisSize: MainAxisSize.min, // es el tamaño de la fila
+              children: [
+                ElevatedButton.icon(
+                  onPressed: (){
+                    appState.toggleFavorite();
+                  },
+                  icon: Icon(icon),
+                  label: Text('Like'), //texto del boton
+                ),
+                SizedBox(width: 10), // es un espacio en blanco
+                ElevatedButton( //boton
+                  onPressed: () {
+                    appState.getNext(); // ejecuta la funcion getNext del widget MyAppState
+                  },
+                  child: Text('Next'), //texto del boton
+                ),
+              ],
             ),
           ],
         ),
