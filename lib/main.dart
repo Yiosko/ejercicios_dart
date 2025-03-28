@@ -33,7 +33,7 @@ class MyAppState extends ChangeNotifier { //este widget es el que se encarga de 
     current = WordPair.random(); // reasigna el valor de current a una nueva palabra
     notifyListeners();
   }
-  
+  //comentario
   var favorites = <WordPair>[]; // una lista vacia, wordpair es una clase que se encarga de manejar pares de palabras
 
   void toggleFavorite(){ // metodo que se encarga de agregar o quitar un elemento de la lista de favoritos
