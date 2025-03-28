@@ -33,7 +33,7 @@ class MyAppState extends ChangeNotifier { //este widget es el que se encarga de 
     current = WordPair.random(); // reasigna el valor de current a una nueva palabra
     notifyListeners();
   }
-  //comentario
+  
   var favorites = <WordPair>[]; // una lista vacia, wordpair es una clase que se encarga de manejar pares de palabras
 
   void toggleFavorite(){ // metodo que se encarga de agregar o quitar un elemento de la lista de favoritos
@@ -101,7 +101,11 @@ class MyHomePage extends StatefulWidget { // es un widget que puede cambiar su e
   State<MyHomePage> createState() => _MyHomePageState(); // es el estado inicial del widget 
 }
 
-class _MyHomePageState extends State<MyHomePage> { // este widget es el que se encarga de manejar el estado de la app y de notificar a los widgets hijos cuando cambiar el estado
+class _MyHomePageState extends State<MyHomePage> {
+  
+  var selectedIndex = 0; // es el indice del item seleccionado en la barra de navegacion
+
+   // este widget es el que se encarga de manejar el estado de la app y de notificar a los widgets hijos cuando cambiar el estado
   @override
   Widget build(BuildContext context){ // el build cada que cambie el estado de la app se va a ejecutar
     return Scaffold( // es widget de nivel superior que implementa el diseño visual de la app
@@ -120,9 +124,11 @@ class _MyHomePageState extends State<MyHomePage> { // este widget es el que se e
                   label: Text('Favorites'),
                 ),
               ],
-              selectedIndex: 0, // es el indice del item seleccionado
+              selectedIndex: selectedIndex, // es el indice del item seleccionado
               onDestinationSelected: (value) { // es la funcion que se ejecuta cuando se selecciona un item
-                print('selected $value'); 
+                setState(() {
+                  selectedIndex = value; // cambia el valor del indice seleccionado
+                });
               },
             ),
           ),
