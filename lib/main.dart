@@ -105,9 +105,23 @@ class _MyHomePageState extends State<MyHomePage> {
   
   var selectedIndex = 0; // es el indice del item seleccionado en la barra de navegacion
 
+
+
    // este widget es el que se encarga de manejar el estado de la app y de notificar a los widgets hijos cuando cambiar el estado
   @override
+
   Widget build(BuildContext context){ // el build cada que cambie el estado de la app se va a ejecutar
+        Widget page;// es el widget que se va a mostrar en la pantalla
+        switch (selectedIndex){ // es un switch que se encarga de mostrar el widget correspondiente al indice seleccionado
+          case 0: 
+            page = GeneratorPage(); // es el widget que se va a mostrar
+            break;
+          case 1: 
+            page = Placeholder(); // es un widget que se encarga de mostrar un espacio en blanco
+            break;
+          default:
+            throw UnimplementedError('No page for $selectedIndex'); // lanza un error si el indice no es valido
+        } 
     return Scaffold( // es widget de nivel superior que implementa el diseño visual de la app
       body: Row ( // es un widget que coloca a sus hijos en una fila
         children: [
@@ -135,7 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Expanded(
             child: Container(
               color: Theme.of(context).colorScheme.primaryContainer, // es el color de fondo del widget background
-              child: GeneratorPage(), // es el widget que se va a mostrar
+              child: page, // es el widget que se va a mostrar
             )
           )
         ],
